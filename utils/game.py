@@ -1,16 +1,17 @@
 import random
+from utils.hangman_image import hangman_image
 
-#Is the same for all the games
-possible_words: list[str] = ['becode', 'learning', 'mathematics', 'sessions']
 
 #Just for this game
 class Hangman:
+    #Is the same for all the games
+    possible_words: list[str] = ['becode', 'learning', 'mathematics', 'sessions']
 
     def __init__(self):
         """
         Class that contains all the blocks for the Hangman game
         """
-        self.word_to_find: list[str] = [letter for letter in random.choice(possible_words).upper()] #returns a list of LETTERS of the word
+        self.word_to_find: list[str] = [letter for letter in random.choice(self.possible_words).upper()] #returns a list of LETTERS of the word
         self.word_letters: set[str] = set(self.word_to_find)
      
         self.lives: int = 5
@@ -36,7 +37,8 @@ class Hangman:
         
         hangman_word = [letter if letter in self.used_guessed_letters else '_' for letter in "".join(self.word_to_find)]
         
-        print ('Hangman: ', ' '.join(hangman_word))
+        print(hangman_image[self.lives])
+        print ('Hangman: ', ' '.join(hangman_word),'\n')
 
 
         #Turn count ---------------
@@ -70,7 +72,7 @@ class Hangman:
                 print(f'{self.user_guess_letter} not in word')
         
         elif self.user_guess_letter in self.used_guessed_letters:
-            print(f'\n{self.user_guess_letter} allready used, chosse another letter')
+            print(f'\n{self.user_guess_letter} already used, chosse another letter')
         else:
             print(f'\nNot a valid letter!\n')
 
@@ -81,6 +83,7 @@ class Hangman:
         Function that will run if lives = 0
         """
         #exit the game and show the answer
+        print(hangman_image[self.lives])
         print (f'...game over...\n The word was :\n{" ".join(self.word_to_find)}')
         
     
@@ -90,14 +93,15 @@ class Hangman:
         """
         #exit the game
         print(f'You found the word: {" ".join(self.word_to_find)} in {self.turn_count} turns with {self.error_count} errors!')
-        
+
+
     
     def start_game(self):
         """
         Main function that will run the code
         """
         #Main loop
-        while len(self.word_letters) > 0 and self.lives > 0:
+        while len(self.word_letters) > 0 and self.lives > 0 :
             self.play()
         #Exit if losse
         if self.lives == 0:
@@ -105,3 +109,10 @@ class Hangman:
         #Exit if win
         else:
             self.well_played()
+        
+
+if __name__ == '__main__':
+    Hangman()
+    
+        
+
